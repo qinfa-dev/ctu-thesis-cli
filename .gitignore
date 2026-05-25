@@ -23,3 +23,4 @@ dist/templates.tar.gz
 
 # Test artifacts
 tests/tmp-*
+build-project/
