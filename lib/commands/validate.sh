@@ -13,6 +13,7 @@ ctu_help_validate() {
   echo "Exit codes: 0=pass, 4=validation failed"
 }
 
+# Validate: Run CTU guideline compliance checks on the thesis project
 ctu_validate() {
   local fix_mode=false
   local root="$PWD"
@@ -24,6 +25,7 @@ ctu_validate() {
     esac
   done
 
+  # Find: Locate project root or fall back to current directory with info.typ
   if ! root=$(ctu_find_project_root); then
     if [[ ! -f "$PWD/info.typ" ]]; then
       ctu_log_error "Not in a thesis project directory."
@@ -39,7 +41,7 @@ ctu_validate() {
   ctu_log_info "Validating thesis project..."
   echo ""
 
-  # --- Structure Check ---
+  # Check: Required structure files (main.typ, info.typ, mandatory directories)
   echo "--- Structure ---"
 
   if [[ -f "main.typ" ]]; then
@@ -62,6 +64,7 @@ ctu_validate() {
       ctu_log_ok "  directory: $d"
     else
       if [[ "$fix_mode" == "true" ]]; then
+        # Fix: Create missing directory with --fix
         mkdir -p "$d"
         ctu_log_warn "  created: $d"
       else
@@ -75,6 +78,7 @@ ctu_validate() {
   echo "--- Metadata ---"
 
   if [[ -f "info.typ" ]]; then
+    # Check: Required metadata keys exist in info.typ
     local required_keys=("student" "advisor" "thesis" "keywords" "committee")
     for key in "${required_keys[@]}"; do
       if grep -q "${key}:" info.typ 2>/dev/null; then
@@ -85,6 +89,7 @@ ctu_validate() {
       fi
     done
 
+    # Check: Detect unreplaced {{PLACEHOLDER}} tokens
     if grep -q '{{[A-Z_]\+}}' info.typ 2>/dev/null; then
       ctu_log_warn "Unreplaced placeholders found in info.typ"
       warnings=$((warnings + 1))
@@ -94,6 +99,7 @@ ctu_validate() {
   echo ""
   echo "--- Format Values ---"
 
+  # Enforce: Font, margins, and line spacing must match CTU Decision 4125
   if [[ -f "info.typ" ]]; then
     if grep -q '"Times New Roman"' info.typ 2>/dev/null; then
       ctu_log_ok "font: Times New Roman"
@@ -119,6 +125,7 @@ ctu_validate() {
 
   echo ""
   echo "--- Font Availability ---"
+  # Check: Times New Roman installed via fontconfig
   if command -v fc-list &>/dev/null && fc-list 2>/dev/null | grep -qi "times new roman"; then
     ctu_log_ok "Times New Roman font installed"
   else
@@ -142,6 +149,7 @@ ctu_validate() {
   else
     ctu_log_error "bibliography.bib missing"
     if [[ "$fix_mode" == "true" ]]; then
+      # Fix: Create placeholder bibliography with --fix
       mkdir -p backmatter
       echo "@article{example, author={Author}, title={Title}, journal={Journal}, year={2026}}" > "$bib_file"
       ctu_log_warn "  created bibliography.bib"
@@ -152,6 +160,7 @@ ctu_validate() {
   echo ""
   echo "--- Include Resolution ---"
   if [[ -f "main.typ" ]]; then
+    # Check: Verify all #include targets in main.typ exist on disk
     while IFS= read -r line; do
       local inc
       inc=$(echo "$line" | grep -oP '#include\s+"\K[^"]+' || true)

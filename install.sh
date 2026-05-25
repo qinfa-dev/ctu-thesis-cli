@@ -12,25 +12,26 @@ echo " CTU Thesis CLI v${CTU_VERSION} Installer"
 echo "======================================"
 echo ""
 
-# Check bash version
+# Check: Bash version must be 4.2+ for associative arrays and mapfile
 if [[ "${BASH_VERSINFO[0]}" -lt 4 ]] || { [[ "${BASH_VERSINFO[0]}" -eq 4 ]] && [[ "${BASH_VERSINFO[1]}" -lt 2 ]]; }; then
   echo "Error: bash 4.2+ required. Current: ${BASH_VERSION}" >&2
   exit 1
 fi
 
-# Check curl
+# Check: Curl must be installed for downloading distribution files
 if ! command -v curl &>/dev/null; then
   echo "Error: curl is required. Install it first." >&2
   exit 1
 fi
 
-# Resolve install source
+# Resolve: Source URL for downloads (overridable via CTU_REPO_URL env)
 REPO_URL="${CTU_REPO_URL:-https://raw.githubusercontent.com/qinfa-dev/ctu-thesis-cli/main}"
 
 echo "Installing to: $CTU_HOME"
+# Initialize: Create directory structure for bin, lib, templates, cache
 mkdir -p "$CTU_HOME/bin" "$CTU_HOME/lib/commands" "$CTU_HOME/templates" "$CTU_HOME/cache"
 
-# Download core files
+# Download: Fetch core library files from repository
 echo "Downloading core files..."
 for f in version.sh core.sh; do
   curl -fsSL "$REPO_URL/lib/${f}" -o "$CTU_HOME/lib/${f}" || {
@@ -39,7 +40,7 @@ for f in version.sh core.sh; do
   }
 done
 
-# Download command files
+# Download: Fetch all command module files
 echo "Downloading command modules..."
 for cmd in init build validate doctor clean config chapter update help; do
   curl -fsSL "$REPO_URL/lib/commands/${cmd}.sh" -o "$CTU_HOME/lib/commands/${cmd}.sh" || {
@@ -47,7 +48,7 @@ for cmd in init build validate doctor clean config chapter update help; do
   }
 done
 
-# Download entrypoint
+# Download: Fetch CLI entrypoint and set executable
 echo "Downloading entrypoint..."
 curl -fsSL "$REPO_URL/bin/ctu-thesis" -o "$CTU_HOME/bin/ctu-thesis" || {
   echo "Error: failed to download entrypoint" >&2
@@ -55,7 +56,7 @@ curl -fsSL "$REPO_URL/bin/ctu-thesis" -o "$CTU_HOME/bin/ctu-thesis" || {
 }
 chmod +x "$CTU_HOME/bin/ctu-thesis"
 
-# Download templates
+# Download: Fetch all template files for thesis scaffolding
 echo "Downloading templates..."
 TEMPLATE_FILES=(
   "compliance.json" "info.typ" "main.typ"
@@ -83,7 +84,7 @@ for f in "${TEMPLATE_FILES[@]}"; do
   }
 done
 
-# Create symlink
+# Link: Create symlink in first writable PATH directory for global access
 SYMLINK_PATHS=("/usr/local/bin" "$HOME/.local/bin" "$HOME/bin")
 for p in "${SYMLINK_PATHS[@]}"; do
   if [[ -d "$p" ]] && [[ -w "$p" ]]; then
@@ -93,7 +94,7 @@ for p in "${SYMLINK_PATHS[@]}"; do
   fi
 done
 
-# Verify
+# Verify: Run doctor to confirm installation is functional
 echo ""
 echo "Installation complete!"
 

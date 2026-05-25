@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-# ctu-thesis core library — shared functions for all commands
-#
+
 # shellcheck disable=SC2155
 
-# -- Constants ---------------------------------------------------------------
+# Initialize: Path constants for CTU runtime — config, templates, cache
 [ -z "${CTU_VERSION}" ] && CTU_VERSION="1.0.0"
 CTU_HOME="${CTU_HOME:-$HOME/.ctu-thesis}"
 CTU_CONFIG="${CTU_CONFIG:-$CTU_HOME/config}"
@@ -12,11 +11,12 @@ CTU_CACHE_DIR="${CTU_CACHE_DIR:-$CTU_HOME/cache}"
 
 export CTU_VERSION CTU_HOME CTU_CONFIG CTU_TEMPLATES_DIR CTU_CACHE_DIR
 
-# -- Color helpers -----------------------------------------------------------
+# Check: Whether terminal supports ANSI color output (NO_COLOR opt-out)
 _ctu_use_color() {
   [[ -z "${NO_COLOR:-}" ]] && [[ -t 1 || -t 2 ]]
 }
 
+# Format: Wrap text in ANSI color codes for terminal display
 _ctu_color() {
   local code="$1"; shift
   if _ctu_use_color; then
@@ -26,32 +26,37 @@ _ctu_color() {
   fi
 }
 
-# -- Logging -----------------------------------------------------------------
+# Log: Print plain message to stdout
 ctu_log()        { printf "%s\n" "$*"; }
 
+# Log: Print cyan [info] prefixed message to stdout
 ctu_log_info()   { printf "%s %s\n" "$(_ctu_color "36" "[info]")" "$*"; }
 
+# Log: Print green [ ok ] prefixed message to stdout
 ctu_log_ok()     { printf "%s %s\n" "$(_ctu_color "32" "[ ok ]")" "$*"; }
 
+# Log: Print yellow [warn] prefixed message to stderr
 ctu_log_warn()   { printf "%s %s\n" "$(_ctu_color "33" "[warn]")" "$*" >&2; }
 
+# Log: Print red [FAIL] prefixed message to stderr
 ctu_log_error()  { printf "%s %s\n" "$(_ctu_color "31" "[FAIL]")" "$*" >&2; }
 
+# Log: Print blue [dbug] message to stderr only when CTU_VERBOSE is true
 ctu_log_debug()  {
   if [[ "${CTU_VERBOSE:-false}" == "true" ]]; then
     printf "%s %s\n" "$(_ctu_color "34" "[dbug]")" "$*" >&2;
   fi
 }
 
+# Guard: Log error and exit with given code — terminates on fatal state
 ctu_die() {
   local code="$1"; shift
   ctu_log_error "$@"
   exit "$code"
 }
 
-# -- Config I/O (ini-style key=value) ----------------------------------------
+# Detect: Platform-compatible sed -i flag (macOS uses '' arg, Linux uses no arg)
 _ctu_sed_i() {
-  # Use -i'' on macOS, -i on Linux
   if [[ "$(uname -s)" == "Darwin" ]]; then
     sed -i '' "$@"
   else
@@ -59,6 +64,7 @@ _ctu_sed_i() {
   fi
 }
 
+# Read: Get value for key from ini-style config file; returns 1 if key missing
 ctu_config_get() {
   local key="$1"
   [[ -f "$CTU_CONFIG" ]] || return 1
@@ -71,6 +77,7 @@ ctu_config_get() {
   return 1
 }
 
+# Assign: Upsert key=value in config file — replaces existing or appends new
 ctu_config_set() {
   local key="$1" value="$2"
   mkdir -p "$(dirname "$CTU_CONFIG")"
@@ -81,28 +88,31 @@ ctu_config_set() {
   fi
 }
 
+# Remove: Delete key=value line from config file
 ctu_config_unset() {
   local key="$1"
   [[ -f "$CTU_CONFIG" ]] || return 0
   _ctu_sed_i "/^${key}=/d" "$CTU_CONFIG"
 }
 
+# List: Print all non-empty, non-comment config lines to stdout
 ctu_config_list() {
   [[ -f "$CTU_CONFIG" ]] || return 0
   grep -vE '^\s*(#|$)' "$CTU_CONFIG" 2>/dev/null || true
 }
 
-# -- Dependency checks -------------------------------------------------------
+# Check: Verify required command exists on PATH
 ctu_check_cmd() {
   command -v "$1" &>/dev/null
 }
 
+# Get: Retrieve command version string via --version flag (or custom flag)
 ctu_get_cmd_version() {
   local cmd="$1" flag="${2:---version}"
   "$cmd" "$flag" 2>&1 | head -1
 }
 
-# -- Project root finder -----------------------------------------------------
+# Find: Walk up directory tree for main.typ + info.typ sentinel files
 ctu_find_project_root() {
   local dir="${1:-$PWD}"
   dir="$(cd "$dir" 2>/dev/null && pwd)" || return 1
@@ -117,6 +127,7 @@ ctu_find_project_root() {
 }
 
 # -- Marker region helpers ---------------------------------------------------
+# Add: Insert content between start/end marker lines in a file; create file if missing
 ctu_marker_insert() {
   local file="$1" start_marker="$2" end_marker="$3" content="$4"
   local dir
@@ -140,13 +151,14 @@ $content
   fi
 }
 
+# Read: Extract content between marker lines from a file
 ctu_marker_read() {
   local file="$1" start_marker="$2" end_marker="$3"
   [[ -f "$file" ]] || return 1
   awk "/^${start_marker}$/,/^${end_marker}$/" "$file" | sed '1d;$d'
 }
 
-# -- Placeholder substitution -------------------------------------------------
+# Replace: Substitute {{PLACEHOLDER}} tokens with values in target file
 ctu_placeholders_replace() {
   local file="$1"; shift
   [[ -f "$file" ]] || return 1
@@ -159,7 +171,7 @@ ctu_placeholders_replace() {
   done
 }
 
-# -- Chapter padding ---------------------------------------------------------
+# Format: Zero-pad chapter number to specified width (default 2)
 ctu_chapter_pad() {
   local num="$1" padding="${2:-2}"
   printf "%0${padding}d" "$num"

@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 # help — show usage and command reference
 
+# Show: Print help subcommand usage
 ctu_help_help() {
   echo "Usage: ctu-thesis help [COMMAND]"
   echo "Show detailed usage for a command, or list all commands."
 }
 
+# Show: General help overview or per-command help by sourcing command file
 ctu_help() {
   local topic="${1:-}"
 
+  # Dispatch: Show help for a specific command topic
   if [[ -n "$topic" ]]; then
     if [[ "$topic" == "help" ]]; then
       ctu_help_help

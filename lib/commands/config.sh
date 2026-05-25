@@ -24,10 +24,12 @@ ctu_help_config() {
   echo "  ctu-thesis config list"
 }
 
+# Dispatch: Route config subcommand (set/get/list/unset) to appropriate handler
 ctu_config_cmd() {
   local sub="${1:-}"
   case "$sub" in
     set)
+      # Validate: Require both key and value arguments
       local key="${2:-}"
       local value="${3:-}"
       if [[ -z "$key" || -z "$value" ]]; then
@@ -35,6 +37,7 @@ ctu_config_cmd() {
         return 1
       fi
       shift 2
+      # Assign: Write key=value to config file
       ctu_config_set "$key" "${*}"
       ctu_log_ok "Set $key"
       ;;
@@ -44,6 +47,7 @@ ctu_config_cmd() {
         ctu_log_error "Usage: config get KEY"
         return 1
       fi
+      # Read: Retrieve value for key or warn if missing
       if ctu_config_get "$key"; then
         return 0
       else
@@ -52,6 +56,7 @@ ctu_config_cmd() {
       fi
       ;;
     list)
+      # Log: Output all config entries to stdout
       ctu_config_list || { ctu_log_info "No config values set."; return 1; }
       ;;
     unset)
@@ -60,6 +65,7 @@ ctu_config_cmd() {
         ctu_log_error "Usage: config unset KEY"
         return 1
       fi
+      # Remove: Delete key from config file
       ctu_config_unset "$key" && ctu_log_ok "Unset $key"
       ;;
     *)

@@ -26,7 +26,7 @@ ctu_help_init() {
   echo "  ctu-thesis init . --lang=en --non-interactive"
 }
 
-# -- Default value maps for auto-generated VI counterparts --
+# Define: Lookup maps for auto-generated Vietnamese metadata counterparts
 declare -A _VI_MAJORS=(
   ["INFORMATION TECHNOLOGY"]="CÔNG NGHỆ THÔNG TIN"
   ["SOFTWARE ENGINEERING"]="KỸ THUẬT PHẦN MỀM"
@@ -40,6 +40,7 @@ declare -A _VI_DEGREES=(
   ["BACHELOR OF ENGINEERING"]="KỸ SƯ"
 )
 
+# Map: Convert English metadata value to Vietnamese counterpart using lookup dicts
 _ctu_init_vi_val() {
   local key="$1"
   local en_val="$2"
@@ -51,6 +52,7 @@ _ctu_init_vi_val() {
   esac
 }
 
+# Scaffold: Create a new CTU-compliant thesis project with template and metadata
 ctu_init() {
   local project_path=""
   local thesis_type="bachelor"
@@ -67,6 +69,7 @@ ctu_init() {
   local non_interactive=false
   local force=false
 
+  # Parse: Read init subcommand flags and positional project path
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --type=*) thesis_type="${1#*=}"; shift ;;
@@ -109,32 +112,33 @@ ctu_init() {
 
   [[ -z "$project_path" ]] && project_path="ctu-thesis"
 
-  # Validate language
+  # Validate: Language must be en or vi (only supported in v1.0)
   if [[ "$lang" != "en" && "$lang" != "vi" ]]; then
     ctu_log_error "Unsupported language '$lang'. Valid options: en, vi."
     return 1
   fi
 
-  # Validate type
+  # Validate: Thesis type — only bachelor is supported in v1.0
   if [[ "$thesis_type" != "bachelor" ]]; then
     ctu_log_error "Unsupported type '$thesis_type'. Only 'bachelor' is supported in v1.0."
     return 1
   fi
 
-  # Resolve absolute path
+  # Resolve: Convert relative project path to absolute path
   local abs_path
   abs_path="$(cd "$(dirname "$project_path")" 2>/dev/null && pwd)/$(basename "$project_path")" || abs_path="$PWD/$project_path"
 
-  # Check for existing directory
+  # Guard: Refuse to overwrite existing directory unless --force is set
   if [[ -d "$abs_path" ]]; then
     if [[ "$force" != "true" ]]; then
       ctu_log_error "'$project_path' already exists. Use --force to overwrite."
       return 1
     fi
+    # Remove: Delete existing directory before replacing
     rm -rf "$abs_path"
   fi
 
-  # Interactive prompts for missing values
+  # Prompt: Interactive fill for missing values using saved config defaults
   if [[ "$non_interactive" != "true" ]]; then
     [[ -z "$student_name" ]] && { student_name=$(ctu_config_get student.name 2>/dev/null || true); [[ -z "$student_name" ]] && read -r -p "Your full name: " student_name; }
     [[ -z "$student_id" ]] && { student_id=$(ctu_config_get student.id 2>/dev/null || true); [[ -z "$student_id" ]] && read -r -p "Student ID: " student_id; }
@@ -144,7 +148,7 @@ ctu_init() {
     [[ -z "$title" ]] && read -r -p "Thesis title: " title
   fi
 
-  # Apply config fallbacks for values still empty
+  # Fallback: Apply saved config values or placeholder defaults for empty fields
   [[ -z "$student_name" ]] && student_name=$(ctu_config_get student.name 2>/dev/null || echo "YOUR NAME HERE")
   [[ -z "$student_id" ]] && student_id=$(ctu_config_get student.id 2>/dev/null || echo "B0000000")
   [[ -z "$student_class" ]] && student_class=$(ctu_config_get student.class 2>/dev/null || echo "YOUR CLASS")
@@ -152,7 +156,7 @@ ctu_init() {
   [[ -z "$advisor_title" ]] && advisor_title=$(ctu_config_get advisor.title 2>/dev/null || echo "Dr.")
   [[ -z "$title" ]] && title="YOUR THESIS TITLE"
 
-  # Auto-generated values
+  # Compute: Auto-generated values — short titles, dates, Vietnamese counterparts
   local short_title="${title:0:50}"
   local thesis_date
   thesis_date="$(date +'%B %Y')"
@@ -171,14 +175,14 @@ ctu_init() {
 
   ctu_log_info "Creating project: $project_path/"
 
-  # Copy template
+  # Copy: Template directory to project path (or create minimal project if cache missing)
   if [[ -d "$CTU_TEMPLATES_DIR" ]] && [[ -f "$CTU_TEMPLATES_DIR/main.typ" ]]; then
     cp -r "$CTU_TEMPLATES_DIR" "$abs_path"
     ctu_log_ok "Copied templates from cache"
   else
     ctu_log_warn "No cached templates found. Creating minimal project."
     mkdir -p "$abs_path/chapters" "$abs_path/frontmatter" "$abs_path/backmatter" "$abs_path/template" "$abs_path/images/logo"
-    # Write minimal main.typ and info.typ
+    # Write: Minimal main.typ placeholder for standalone compilation
     cat > "$abs_path/main.typ" << 'TMIN'
 #set page(width: auto, height: auto)
 #set text(font: "Times New Roman", size: 13pt)
@@ -187,7 +191,7 @@ Your content here.
 TMIN
   fi
 
-  # Replace placeholders in info.typ
+  # Replace: Substitute all {{PLACEHOLDER}} tokens in info.typ with user values
   if [[ -f "$abs_path/info.typ" ]]; then
     ctu_placeholders_replace "$abs_path/info.typ" \
       STUDENT_NAME "$student_name" \
@@ -214,7 +218,7 @@ TMIN
     ctu_log_ok "Replaced placeholders"
   fi
 
-  # Create .ctu-thesisrc
+  # Create: Project-level .ctu-thesisrc config with template settings
   cat > "$abs_path/.ctu-thesisrc" << RCEOF
 [project]
 name=$(basename "$project_path")

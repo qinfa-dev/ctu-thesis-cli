@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# -- Resolve LIB_DIR ---------------------------------------------------------
+# Resolve: Locate LIB_DIR from script-relative path, CTU_HOME env, or default ~/.ctu-thesis
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [[ -f "$SCRIPT_DIR/../lib/core.sh" ]]; then
   LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
@@ -10,18 +10,19 @@ elif [[ -n "${CTU_HOME:-}" ]] && [[ -f "$CTU_HOME/lib/core.sh" ]]; then
 elif [[ -f "$HOME/.ctu-thesis/lib/core.sh" ]]; then
   LIB_DIR="$HOME/.ctu-thesis/lib"
 else
+  # Guard: Fail with diagnostic when core library is unreachable
   echo "Error: cannot find ctu-thesis core library." >&2
   echo "Run install script or set CTU_HOME environment variable." >&2
   exit 1
 fi
 
-# -- Source core library -----------------------------------------------------
+# Source: Load version constant and core library into shell context
 # shellcheck source=lib/version.sh
 source "$LIB_DIR/version.sh"
 # shellcheck source=lib/core.sh
 source "$LIB_DIR/core.sh"
 
-# -- Global flags ------------------------------------------------------------
+# Initialize: Global flag defaults for verbose, quiet, and command state
 CTU_VERBOSE="${CTU_VERBOSE:-false}"
 CTU_QUIET="${CTU_QUIET:-false}"
 COMMAND=""
@@ -54,10 +55,10 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# -- Default to help ---------------------------------------------------------
+# Guard: Default to help when no command is specified
 [[ -z "$COMMAND" ]] && COMMAND="help"
 
-# -- Dispatch ----------------------------------------------------------------
+# Dispatch: Source command handler or error on unknown command
 CMD_FILE="$LIB_DIR/commands/${COMMAND}.sh"
 if [[ -f "$CMD_FILE" ]]; then
   # shellcheck source=/dev/null

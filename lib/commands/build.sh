@@ -18,11 +18,13 @@ ctu_help_build() {
   echo "  ctu-thesis build --draft"
 }
 
+# Build: Compile thesis project to PDF using typst with optional watch and draft modes
 ctu_build() {
   local watch_mode=false
   local draft_mode=false
   local output_file=""
 
+  # Parse: Read build subcommand flags
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --watch) watch_mode=true; shift ;;
@@ -32,7 +34,7 @@ ctu_build() {
     esac
   done
 
-  # Find project root
+  # Find: Locate project root via main.typ + info.typ sentinels
   local root
   if ! root=$(ctu_find_project_root); then
     ctu_log_error "Not in a thesis project directory (main.typ + info.typ not found)."
@@ -41,13 +43,13 @@ ctu_build() {
 
   cd "$root" || return 1
 
-  # Check typst
+  # Check: Typst compiler must be installed
   if ! command -v typst &>/dev/null; then
     ctu_log_error "typst not found. Install: https://github.com/typst/typst/releases"
     return 2
   fi
 
-  # Detect output name from language
+  # Detect: Derive output filename from primary_lang in info.typ
   if [[ -z "$output_file" ]]; then
     local lang
     lang=$(grep -oP 'primary_lang:\s*"\K[^"]+' info.typ 2>/dev/null || echo "en")
@@ -58,7 +60,8 @@ ctu_build() {
     fi
   fi
 
-  # Draft mode: temporarily comment out bibliography
+  # Defer: In draft mode, comment out bibliography for faster compilation,
+  #         restore on EXIT via trap
   local tmp_main=""
   if [[ "$draft_mode" == "true" ]]; then
     tmp_main="${root}/main.typ.ctu-draft-$$"
@@ -72,7 +75,7 @@ ctu_build() {
     ctu_log_info "Draft mode: bibliography skipped."
   fi
 
-  # Compile
+  # Compile: Run typst in watch or single-shot mode
   if [[ "$watch_mode" == "true" ]]; then
     ctu_log_info "Watching for changes... (Ctrl+C to stop)"
     typst watch main.typ "$output_file"
@@ -86,7 +89,7 @@ ctu_build() {
     fi
   fi
 
-  # Clear draft trap on success
+  # Recover: Restore original main.typ from draft backup and clear trap on success
   if [[ "$draft_mode" == "true" ]] && [[ -n "$tmp_main" ]]; then
     trap - EXIT
     mv "$tmp_main" main.typ

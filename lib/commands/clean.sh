@@ -11,6 +11,7 @@ ctu_help_clean() {
   echo "  --all    Also remove .ctu-thesisrc"
 }
 
+# Remove: Delete build artifacts (pdf, tmp, bak) from project root
 ctu_clean() {
   local all=false
 
@@ -21,6 +22,7 @@ ctu_clean() {
     esac
   done
 
+  # Find: Locate project root or clean current directory as fallback
   local root
   if ! root=$(ctu_find_project_root); then
     ctu_log_warn "Not in a thesis project directory; cleaning current directory."
@@ -28,6 +30,7 @@ ctu_clean() {
   fi
 
   local cleaned=0
+  # Remove: Delete all pdf, tmp, bak files in root directory
   for ext in pdf tmp bak; do
     while IFS= read -r -d $'\0' f; do
       rm -f "$f"
@@ -37,6 +40,7 @@ ctu_clean() {
   done
 
   if [[ "$all" == "true" ]] && [[ -f "$root/.ctu-thesisrc" ]]; then
+    # Remove: Also delete .ctu-thesisrc when --all flag is set
     rm -f "$root/.ctu-thesisrc"
     ctu_log_ok "Removed: .ctu-thesisrc"
     cleaned=$((cleaned + 1))

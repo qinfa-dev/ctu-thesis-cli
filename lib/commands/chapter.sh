@@ -19,14 +19,16 @@ ctu_help_chapter() {
   echo "  ctu-thesis chapter list"
 }
 
+# Count: Return number of chapter includes in main.typ
 _ctu_chapter_count() {
   grep -c '#include "chapters/chapter[0-9]*\.typ"' main.typ 2>/dev/null || echo 0
 }
 
+# Renumber: Reassign sequential chapter numbers after insert/remove/reorder
 _ctu_chapter_renumber() {
   local main_typ="main.typ"
 
-  # Collect existing chapters in order (by include line position)
+  # Collect: Gather existing chapter numbers in include-line order
   local old_numbers=()
   while IFS= read -r line; do
     local num
@@ -48,6 +50,7 @@ _ctu_chapter_renumber() {
   done
 }
 
+# Dispatch: Route chapter subcommand (add/remove/list/move) to handler
 ctu_chapter() {
   local root
   if ! root=$(ctu_find_project_root); then
@@ -61,6 +64,7 @@ ctu_chapter() {
 
   case "$sub" in
     add)
+      # Parse: Chapter add flags and title
       local title="${1:-}"
       shift 2>/dev/null || true
       local after="" before=""
@@ -77,7 +81,7 @@ ctu_chapter() {
         return 1
       fi
 
-      # Count existing chapters
+      # Compute: Derive new chapter number from existing count or --after/--before
       local count
       count=$(grep -c '#include "chapters/chapter[0-9]*\.typ"' main.typ 2>/dev/null || echo 0)
       local new_num
@@ -89,10 +93,12 @@ ctu_chapter() {
         new_num="$before"
       fi
 
+      # Format: Zero-pad new chapter number for filename
       local padded
       padded=$(printf "%02d" "$new_num")
       local filename="chapters/chapter${padded}.typ"
 
+      # Create: Write new chapter Typst file with title heading
       cat > "$filename" << TYPEOF
 = Chapter ${new_num}: ${title}
 
@@ -100,6 +106,7 @@ ctu_chapter() {
 TYPEOF
       ctu_log_ok "Created: $filename"
 
+      # Add: Insert include line in main.typ marker region (or append if missing)
       local include_line="#include \"chapters/chapter${padded}.typ\""
       if grep -q "// -- CTU-THESIS-CHAPTERS-START --" main.typ 2>/dev/null; then
         ctu_marker_insert main.typ \
@@ -111,6 +118,7 @@ TYPEOF
       fi
 
       if [[ -n "$after" || -n "$before" ]]; then
+        # Renumber: Re-sequence all chapters when inserting at specific position
         _ctu_chapter_renumber
       fi
 
@@ -118,6 +126,7 @@ TYPEOF
       ;;
 
     remove)
+      # Parse: Chapter remove flags
       local num="${1:-}"
       shift 2>/dev/null || true
       local force=false
@@ -135,6 +144,7 @@ TYPEOF
         return 1
       fi
 
+      # Guard: Prevent removal of the only remaining chapter
       local count
       count=$(grep -c '#include "chapters/chapter[0-9]*\.typ"' main.typ 2>/dev/null || echo 0)
       if [[ "$count" -le 1 ]] && [[ "$force" != "true" ]]; then
@@ -146,20 +156,22 @@ TYPEOF
       padded=$(printf "%02d" "$num")
       local filename="chapters/chapter${padded}.typ"
 
+      # Check: Verify chapter file exists
       if [[ ! -f "$filename" ]] && [[ "$force" != "true" ]]; then
         ctu_log_error "Chapter $num not found: $filename"
         return 1
       fi
 
+      # Confirm: Prompt for confirmation unless --force is set
       if [[ "$force" != "true" ]]; then
         read -r -p "Remove chapter $num? (y/N): " confirm
         [[ "$confirm" != "y" ]] && { ctu_log_info "Cancelled."; return 5; }
       fi
 
+      # Remove: Delete chapter file and its include line from main.typ
       rm -f "$filename"
       ctu_log_ok "Deleted: $filename"
 
-      # Remove include line from main.typ
       if [[ "$(uname)" == "Darwin" ]]; then
         sed -i '' "/chapter${padded}.typ/d" main.typ
       else
@@ -167,11 +179,13 @@ TYPEOF
       fi
 
       if [[ "$renumber" == "true" ]]; then
+        # Renumber: Re-sequence remaining chapters after removal
         _ctu_chapter_renumber
       fi
       ;;
 
     list)
+      # List: Print all chapters with title and filename
       local i=0
       while IFS= read -r line; do
         i=$((i + 1))
@@ -191,6 +205,7 @@ TYPEOF
       ;;
 
     move)
+      # Parse: Chapter move flags
       local num="${1:-}"
       shift 2>/dev/null || true
       local to=""
@@ -204,6 +219,7 @@ TYPEOF
         ctu_log_info "Move requires: chapter move N --to=M"
         return 1
       fi
+      # TODO(qingfa, 2026-05-25): Implement chapter reorder logic — TASK
       ctu_log_info "Move not yet fully implemented in v1.0."
       ;;
 
