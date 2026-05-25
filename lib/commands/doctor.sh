@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # doctor — diagnose the user's environment
 
-CLR_GREEN='\033[32m'
-CLR_RED='\033[31m'
-CLR_YELLOW='\033[33m'
+CLR_GREEN='\033[0;32m'
+CLR_RED='\033[0;31m'
+CLR_YELLOW='\033[0;33m'
 CLR_RESET='\033[0m'
 
 ctu_help_doctor() {
@@ -101,10 +101,25 @@ ctu_doctor() {
       tnr_found=true
     fi
   fi
+  if [[ "$tnr_found" != "true" ]]; then
+    for windir in "/c/Windows/Fonts/times.ttf" "/mnt/c/Windows/Fonts/times.ttf"; do
+      [[ -f "$windir" ]] && { tnr_found=true; break; }
+    done
+  fi
+  if [[ "$tnr_found" != "true" ]] && [[ -n "${SystemRoot:-}" ]]; then
+    [[ -f "${SystemRoot}/Fonts/times.ttf" ]] && tnr_found=true
+  fi
   if [[ "$tnr_found" == "true" ]]; then
     _ctu_doctor_status "font_times_new_roman" "ok" "found" "$json_output"
   else
-    _ctu_doctor_status "font_times_new_roman" "warn" "not found. Install ttf-mscorefonts-installer (Linux) or MS Office fonts (macOS). Typst will use fallback." "$json_output"
+    local tnr_hint=""
+    case "$(uname -s)" in
+      Linux)   tnr_hint="Install: apt-get install ttf-mscorefonts-installer" ;;
+      Darwin)  tnr_hint="Install via Font Book or MS Office" ;;
+      MINGW*|MSYS*|CYGWIN*) tnr_hint="Pre-installed on Windows. Check C:\\Windows\\Fonts\\times.ttf" ;;
+      *)       tnr_hint="Install Times New Roman font" ;;
+    esac
+    _ctu_doctor_status "font_times_new_roman" "warn" "not found. $tnr_hint. Typst will use fallback." "$json_output"
   fi
 
   # Internet
