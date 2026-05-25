@@ -16,9 +16,9 @@ else
 fi
 
 # -- Source core library -----------------------------------------------------
-# shellcheck source=lib/version.sh
+  # shellcheck source=../lib/version.sh
 source "$LIB_DIR/version.sh"
-# shellcheck source=lib/core.sh
+# shellcheck source=../lib/core.sh
 source "$LIB_DIR/core.sh"
 
 # -- Global flags ------------------------------------------------------------
