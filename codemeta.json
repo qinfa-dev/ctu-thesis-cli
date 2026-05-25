@@ -1,0 +1,34 @@
+{
+    "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+    "@type": "SoftwareSourceCode",
+    "identifier": "ctu-thesis-cli",
+    "name": "CTU Thesis CLI",
+    "version": "1.0.0",
+    "description": "A cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects.",
+    "license": "https://spdx.org/licenses/MIT",
+    "author": [
+        {
+            "@type": "Person",
+            "givenName": "Phat",
+            "familyName": "Nguyen"
+        }
+    ],
+    "programmingLanguage": [
+        "Shell",
+        "Typst"
+    ],
+    "keywords": [
+        "cli",
+        "bash",
+        "typst",
+        "thesis",
+        "ctu",
+        "academic-writing",
+        "vietnam",
+        "can-tho-university"
+    ],
+    "codeRepository": "https://github.com/ngtphat-towa/ctu-thesis-cli",
+    "issueTracker": "https://github.com/ngtphat-towa/ctu-thesis-cli/issues",
+    "dateCreated": "2026-05-25",
+    "operatingSystem": "Platform Independent"
+}

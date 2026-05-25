@@ -1,0 +1,30 @@
+{
+  "name": "ctu-thesis-cli",
+  "version": "1.0.0",
+  "description": "Cross-platform Bash CLI for CTU students to scaffold, build, validate, and manage Typst thesis projects.",
+  "bin": {
+    "ctu-thesis": "bin/ctu-thesis"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngtphat-towa/ctu-thesis-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "bash",
+    "typst",
+    "thesis",
+    "ctu",
+    "can-tho-university",
+    "dai-hoc-can-tho",
+    "luan-van",
+    "academic-writing",
+    "vietnam"
+  ],
+  "author": "Phat Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngtphat-towa/ctu-thesis-cli/issues"
+  },
+  "homepage": "https://github.com/ngtphat-towa/ctu-thesis-cli#readme"
+}

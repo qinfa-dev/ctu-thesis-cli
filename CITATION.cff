@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: "CTU Thesis CLI"
+message: "If you use this tool for your academic work, please cite it using the metadata from this file."
+type: software
+authors:
+  - family-names: "Nguyen"
+    given-names: "Phat"
+repository-code: "https://github.com/ngtphat-towa/ctu-thesis-cli"
+url: "https://github.com/ngtphat-towa/ctu-thesis-cli"
+abstract: "A cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024)."
+keywords:
+  - cli
+  - bash
+  - typst
+  - thesis
+  - ctu
+  - academic-writing
+  - vietnam
+license: MIT
+version: 1.0.0
+date-released: 2026-05-25
