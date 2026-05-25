@@ -6,6 +6,8 @@
 
 [English](#english) | [Tiếng Việt](#tiếng-việt)
 
+<img src="docs/images/banner.png" alt="CTU Thesis CLI Banner" width="100%" />
+
 ---
 
 > # ⚠️  DISCLAIMER / LƯU Ý QUAN TRỌNG
