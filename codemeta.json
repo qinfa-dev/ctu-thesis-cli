@@ -4,7 +4,7 @@
     "identifier": "ctu-thesis-cli",
     "name": "CTU Thesis CLI",
     "version": "1.0.0",
-    "description": "A cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024). 9 commands: init, build, validate, doctor, clean, config, chapter, update, help. Fully bilingual (English/Vietnamese).",
+    "description": "Cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024). | CLI đa nền tảng bằng Bash cho sinh viên ĐHCT tạo, biên dịch, kiểm tra và quản lý luận văn Typst — tuân thủ Quyết định 4125/QĐ-ĐHCT (2024).",
     "license": "https://spdx.org/licenses/MIT",
     "author": [
         {
@@ -29,6 +29,7 @@
         "can-tho-university",
         "dai-hoc-can-tho",
         "luan-van",
+        "luan-van-tot-nghiep",
         "vietnam",
         "academic-writing",
         "pdf-generation",
@@ -37,7 +38,9 @@
         "project-generator",
         "developer-tools",
         "ieee",
-        "typesetting"
+        "typesetting",
+        "bilingual",
+        "song-ngu"
     ],
     "codeRepository": "https://github.com/qinfa-dev/ctu-thesis-cli",
     "issueTracker": "https://github.com/qinfa-dev/ctu-thesis-cli/issues",

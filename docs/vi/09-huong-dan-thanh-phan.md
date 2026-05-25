@@ -1,6 +1,6 @@
 # 09 - Hướng dẫn: Hình ảnh, Bảng biểu, Công thức, Mã nguồn
 
-> # ⚠️  TUYÊN BỐ MIỄN TRỪ TRÁCH NHIỆM — VUI LÒNG ĐỌC
+> # ⚠️  LƯU Ý QUAN TRỌNG — VUI LÒNG ĐỌC
 >
 > **Đây KHÔNG phải là tài liệu chính thức của ĐHCT.** Đây là diễn giải của cộng đồng dựa trên **Quyết định 4125/QĐ-ĐHCT** (06/08/2024).
 >

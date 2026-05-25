@@ -8,7 +8,7 @@
 
 ---
 
-> # ⚠️  DISCLAIMER / TUYÊN BỐ MIỄN TRỪ TRÁCH NHIỆM
+> # ⚠️  DISCLAIMER / LƯU Ý QUAN TRỌNG
 >
 > **This is NOT an official CTU tool.** It is a community-maintained CLI based on **Decision 4125/QĐ-ĐHCT** (August 6, 2024). Formatting requirements **vary by department** and **change without notice**. ✅ **Always confirm** your final document format with your **academic advisor** and **department office**.
 >

@@ -7,7 +7,7 @@ authors:
     given-names: "Phat"
 repository-code: "https://github.com/qinfa-dev/ctu-thesis-cli"
 url: "https://github.com/qinfa-dev/ctu-thesis-cli"
-abstract: "A cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024)."
+abstract: "Cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024). | CLI đa nền tảng bằng Bash cho sinh viên ĐHCT tạo, biên dịch, kiểm tra và quản lý luận văn Typst — tuân thủ Quyết định 4125/QĐ-ĐHCT (2024)."
 keywords:
   - cli
   - bash
@@ -20,6 +20,7 @@ keywords:
   - can-tho-university
   - dai-hoc-can-tho
   - luan-van
+  - luan-van-tot-nghiep
   - vietnam
   - academic-writing
   - pdf-generation
@@ -29,6 +30,8 @@ keywords:
   - developer-tools
   - ieee
   - typesetting
+  - bilingual
+  - song-ngu
 license: MIT
 version: 1.0.0
 date-released: 2026-05-25
