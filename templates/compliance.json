@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "thesis_type": "bachelor",
+  "format": {
+    "font": "Times New Roman",
+    "font_size": "13pt",
+    "margins": {
+      "left": "4cm",
+      "right": "2.5cm",
+      "top": "2.5cm",
+      "bottom": "2.5cm"
+    },
+    "line_spacing": 1.2,
+    "paragraph_indent": "1cm"
+  },
+  "abstract": {
+    "min_words": 200,
+    "max_words": 350,
+    "min_keywords": 3,
+    "max_keywords": 5
+  },
+  "bibliography": {
+    "style": "ieee",
+    "file_path": "backmatter/bibliography.bib",
+    "min_references": 15
+  },
+  "cover": {
+    "border_color": "#003399",
+    "outer_border_weight": "2pt",
+    "inner_border_weight": "3pt"
+  },
+  "headings": {
+    "level1_size": "14pt",
+    "level1_transform": "uppercase",
+    "level1_align": "center",
+    "level2_size": "13pt",
+    "level2_transform": "uppercase",
+    "level3_size": "13pt"
+  },
+  "page": {
+    "paper": "a4",
+    "front_matter_numbering": "i",
+    "main_content_numbering": "1",
+    "header_font_size": "9pt",
+    "header_style": "italic",
+    "footer_font_size": "11pt"
+  },
+  "code_blocks": {
+    "font": "Courier New",
+    "font_size": "10pt",
+    "background": "#f5f5f5",
+    "padding": "0.3cm"
+  },
+  "required_files": [
+    "main.typ",
+    "info.typ",
+    "template/ctu-styles.typ",
+    "template/i18n.typ",
+    "frontmatter/cover.typ",
+    "frontmatter/inner-cover.typ",
+    "frontmatter/evaluation.typ",
+    "frontmatter/acknowledgements.typ",
+    "frontmatter/abstract.typ",
+    "frontmatter/table-of-contents.typ",
+    "frontmatter/list-of-figures.typ",
+    "frontmatter/list-of-tables.typ",
+    "frontmatter/abbreviations.typ",
+    "backmatter/bibliography.bib",
+    "backmatter/appendices.typ"
+  ],
+  "required_directories": [
+    "template",
+    "frontmatter",
+    "chapters",
+    "chapters/part1",
+    "chapters/part2",
+    "chapters/part3",
+    "backmatter",
+    "images",
+    "images/logo"
+  ]
+}
