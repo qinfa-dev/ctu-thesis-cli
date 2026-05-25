@@ -14,7 +14,7 @@ load test_helper
 
 @test "version output is correct" {
   run ctu --version
-  [[ "$output" == *"1.0.0"* ]]
+  [[ "$output" == *"1.0.1"* ]]
 }
 
 @test "template sync test passes" {
