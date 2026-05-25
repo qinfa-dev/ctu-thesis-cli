@@ -14,9 +14,7 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck
       - name: Lint shell scripts
-        run: |
-          (cd bin && shellcheck ctu-thesis)
-          shellcheck lib/core.sh lib/version.sh lib/commands/*.sh install.sh
+        run: shellcheck -x bin/ctu-thesis lib/core.sh lib/version.sh lib/commands/*.sh install.sh
 
   template-sync:
     runs-on: ubuntu-latest
