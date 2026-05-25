@@ -25,7 +25,7 @@ test-ci:
 	@bats --tap tests/
 
 lint:
-	@shellcheck bin/ctu-thesis lib/core.sh lib/version.sh lib/commands/*.sh install.sh
+	@shellcheck -x bin/ctu-thesis lib/core.sh lib/version.sh lib/commands/*.sh install.sh
 
 clean:
 	@rm -rf tests/tmp-*
