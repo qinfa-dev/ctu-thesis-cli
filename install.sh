@@ -5,7 +5,7 @@ set -euo pipefail
 # Usage: curl -fsSL <url>/install.sh | bash
 
 CTU_HOME="${CTU_HOME:-$HOME/.ctu-thesis}"
-CTU_VERSION="1.0.0"
+CTU_VERSION="1.0.1"
 
 echo "======================================"
 echo " CTU Thesis CLI v${CTU_VERSION} Installer"
