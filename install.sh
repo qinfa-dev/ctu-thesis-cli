@@ -13,7 +13,7 @@ echo "======================================"
 echo ""
 
 # Check bash version
-if [[ "${BASH_VERSINFO[0]}" -lt 4 ]] || ( [[ "${BASH_VERSINFO[0]}" -eq 4 ]] && [[ "${BASH_VERSINFO[1]}" -lt 2 ]] ); then
+if [[ "${BASH_VERSINFO[0]}" -lt 4 ]] || { [[ "${BASH_VERSINFO[0]}" -eq 4 ]] && [[ "${BASH_VERSINFO[1]}" -lt 2 ]]; }; then
   echo "Error: bash 4.2+ required. Current: ${BASH_VERSION}" >&2
   exit 1
 fi
@@ -25,7 +25,7 @@ if ! command -v curl &>/dev/null; then
 fi
 
 # Resolve install source
-REPO_URL="${CTU_REPO_URL:-https://raw.githubusercontent.com/ngtphat-towa/CTU-Thesis-Template/main}"
+REPO_URL="${CTU_REPO_URL:-https://raw.githubusercontent.com/qinfa-dev/ctu-thesis-cli/main}"
 
 echo "Installing to: $CTU_HOME"
 mkdir -p "$CTU_HOME/bin" "$CTU_HOME/lib/commands" "$CTU_HOME/templates" "$CTU_HOME/cache"
@@ -98,7 +98,7 @@ echo ""
 echo "Installation complete!"
 
 if [[ -x "$CTU_HOME/bin/ctu-thesis" ]]; then
-  CTU_HOME="$CTU_HOME" bash "$CTU_HOME/bin/ctu-thesis" doctor 2>/dev/null || true
+  "$CTU_HOME/bin/ctu-thesis" doctor 2>/dev/null || true
 fi
 
 echo ""

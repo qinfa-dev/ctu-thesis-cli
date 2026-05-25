@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "Nguyen"
     given-names: "Phat"
-repository-code: "https://github.com/ngtphat-towa/ctu-thesis-cli"
-url: "https://github.com/ngtphat-towa/ctu-thesis-cli"
+repository-code: "https://github.com/qinfa-dev/ctu-thesis-cli"
+url: "https://github.com/qinfa-dev/ctu-thesis-cli"
 abstract: "A cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024)."
 keywords:
   - cli

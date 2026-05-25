@@ -7,7 +7,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ngtphat-towa/ctu-thesis-cli.git"
+    "url": "git+https://github.com/qinfa-dev/ctu-thesis-cli.git"
   },
   "keywords": [
     "cli",
@@ -24,7 +24,7 @@
   "author": "Phat Nguyen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngtphat-towa/ctu-thesis-cli/issues"
+    "url": "https://github.com/qinfa-dev/ctu-thesis-cli/issues"
   },
-  "homepage": "https://github.com/ngtphat-towa/ctu-thesis-cli#readme"
+  "homepage": "https://github.com/qinfa-dev/ctu-thesis-cli#readme"
 }

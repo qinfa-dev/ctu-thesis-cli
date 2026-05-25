@@ -2965,7 +2965,7 @@ if ! command -v curl &>/dev/null; then
 fi
 
 # Resolve install source
-REPO_URL="${CTU_REPO_URL:-https://raw.githubusercontent.com/ngtphat-towa/CTU-Thesis-Template/main}"
+REPO_URL="${CTU_REPO_URL:-https://raw.githubusercontent.com/qinfa-dev/ctu-thesis-cli/main}"
 
 echo "Installing to: $CTU_HOME"
 mkdir -p "$CTU_HOME/bin" "$CTU_HOME/lib/commands" "$CTU_HOME/templates" "$CTU_HOME/cache"
@@ -3323,7 +3323,7 @@ A cross-platform Bash CLI for CTU students to scaffold, build, validate, and man
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ngtphat-towa/cth-thesis-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/qinfa-dev/ctu-thesis-cli/main/install.sh | bash
 ```
 
 ## Quick Start
@@ -3374,7 +3374,7 @@ This template follows CTU's official guidelines:
 ## Development
 
 ```bash
-git clone https://github.com/ngtphat-towa/cth-thesis-cli
+git clone https://github.com/qinfa-dev/ctu-thesis-cli
 cd ctu-thesis-cli
 
 make lint     # shellcheck

@@ -11,7 +11,7 @@
 If you discover a security vulnerability in this project, please:
 
 1. **Do not** open a public issue
-2. Report it privately to the maintainers via GitHub's Security Advisory: https://github.com/ngtphat-towa/ctu-thesis-cli/security/advisories/new
+2. Report it privately to the maintainers via GitHub's Security Advisory: https://github.com/qinfa-dev/ctu-thesis-cli/security/advisories/new
 3. Or contact the maintainers directly
 
 ### What to include

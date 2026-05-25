@@ -33,7 +33,8 @@ ctu_update() {
   if [[ "$update_cli" == "true" ]]; then
     ctu_log_info "Updating CLI..."
     if [[ -f "$HOME/.ctu-thesis/bin/ctu-thesis" ]]; then
-      local backup_dir="$HOME/.ctu-thesis-backup-$(date +%Y%m%d-%H%M%S)"
+      local backup_dir
+      backup_dir="$HOME/.ctu-thesis-backup-$(date +%Y%m%d-%H%M%S)"
       cp -r "$HOME/.ctu-thesis" "$backup_dir" 2>/dev/null || true
       ctu_log_info "Backed up to: $backup_dir"
     fi

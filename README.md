@@ -5,7 +5,7 @@
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ngtphat-towa/CTU-Thesis-Template/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/qinfa-dev/ctu-thesis-cli/main/install.sh | bash
 ```
 
 ## Quick Start
@@ -72,7 +72,7 @@ my-thesis/
 ## Development
 
 ```bash
-git clone https://github.com/ngtphat-towa/ctu-thesis-cli
+git clone https://github.com/qinfa-dev/ctu-thesis-cli
 cd ctu-thesis-cli
 
 make lint       # shellcheck

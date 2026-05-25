@@ -31,7 +31,7 @@ ctu_validate() {
     fi
     root="$PWD"
   fi
-  cd "$root"
+  cd "$root" || return 1
 
   local failures=0
   local warnings=0

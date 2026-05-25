@@ -9,16 +9,16 @@
 #import "template/i18n.typ": term
 
 // 2. GLOBAL SETTINGS
-#let lang = settings.primary_lang
+#let lang = if settings.primary_lang in ("en", "vi") { settings.primary_lang } else { "en" }
 
 // 3. DOCUMENT SETUP (CTU Format)
 #show: doc => ctu-styles(doc, lang: lang)
 
 // Document Metadata
 #set document(
-  title: info.at(lang).thesis.title,
-  author: info.at(lang).student.name,
-  keywords: info.at(lang).keywords,
+  title: info.at(lang, default: info.en).thesis.title,
+  author: info.at(lang, default: info.en).student.name,
+  keywords: info.at(lang, default: info.en).keywords,
 )
 
 // ============================================================================

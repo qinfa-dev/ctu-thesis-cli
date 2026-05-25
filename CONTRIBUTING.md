@@ -31,7 +31,7 @@ If you have an idea for a new feature, please use the Feature Request template.
 ### Development Setup
 
 ```bash
-git clone https://github.com/ngtphat-towa/ctu-thesis-cli
+git clone https://github.com/qinfa-dev/ctu-thesis-cli
 cd ctu-thesis-cli
 
 # Install test deps

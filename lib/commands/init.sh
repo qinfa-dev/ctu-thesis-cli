@@ -98,7 +98,11 @@ ctu_init() {
         return 1
         ;;
       *)
-        [[ -z "$project_path" ]] && { project_path="$1"; shift; } || { ctu_log_error "Unexpected argument: $1"; return 1; }
+        if [[ -z "$project_path" ]]; then
+          project_path="$1"; shift
+        else
+          ctu_log_error "Unexpected argument: $1"; return 1
+        fi
         ;;
     esac
   done
@@ -150,11 +154,10 @@ ctu_init() {
 
   # Auto-generated values
   local short_title="${title:0:50}"
-  local year
-  year=$(date +%Y)
   local thesis_date
   thesis_date="$(date +'%B %Y')"
-  local thesis_date_vi="Tháng $(date +'%m/%Y')"
+  local thesis_date_vi
+  thesis_date_vi="Tháng $(date +'%m/%Y')"
   local thesis_degree="BACHELOR OF ENGINEERING"
   local thesis_degree_vi="KỸ SƯ"
   local major_vi

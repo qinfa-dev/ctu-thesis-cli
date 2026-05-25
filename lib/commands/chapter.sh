@@ -25,7 +25,6 @@ _ctu_chapter_count() {
 
 _ctu_chapter_renumber() {
   local main_typ="main.typ"
-  local tmpf="${main_typ}.ctu-renumber-$$"
 
   # Collect existing chapters in order (by include line position)
   local old_numbers=()
@@ -55,7 +54,7 @@ ctu_chapter() {
     ctu_log_error "Not in a thesis project directory."
     return 1
   fi
-  cd "$root"
+  cd "$root" || return 1
 
   local sub="${1:-}"
   shift 2>/dev/null || true

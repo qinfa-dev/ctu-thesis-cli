@@ -2,7 +2,7 @@
 #import "../template/i18n.typ": term
 
 #let lang = settings.primary_lang
-#let data = info.at(lang)
+#let data = info.at(lang, default: info.en)
 
 #set page(numbering: "i")
 #heading(level: 1, numbering: none, outlined: true)[#term(lang, "evaluation_title")]

@@ -39,7 +39,7 @@ ctu_build() {
     return 1
   fi
 
-  cd "$root"
+  cd "$root" || return 1
 
   # Check typst
   if ! command -v typst &>/dev/null; then

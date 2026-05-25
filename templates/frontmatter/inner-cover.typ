@@ -2,7 +2,7 @@
 #import "../template/i18n.typ": term
 
 #let inner-cover-page(lang: "en") = {
-  let data = info.at(lang)
+  let data = info.at(lang, default: info.en)
   
   page(
     margin: (left: 3cm, right: 3cm, top: 2cm, bottom: 2cm),

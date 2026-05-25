@@ -15,7 +15,7 @@
 ) = {
   
   // Localized header content
-  let header-title = info.at(lang).thesis.short_title
+  let header-title = info.at(lang, default: info.en).thesis.short_title
   
   // Page geometry (CTU Standard)
   set page(
