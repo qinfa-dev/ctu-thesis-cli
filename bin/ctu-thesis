@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# -- Resolve LIB_DIR ---------------------------------------------------------
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -f "$SCRIPT_DIR/../lib/core.sh" ]]; then
+  LIB_DIR="$(cd "$SCRIPT_DIR/../lib" && pwd)"
+elif [[ -n "${CTU_HOME:-}" ]] && [[ -f "$CTU_HOME/lib/core.sh" ]]; then
+  LIB_DIR="$CTU_HOME/lib"
+elif [[ -f "$HOME/.ctu-thesis/lib/core.sh" ]]; then
+  LIB_DIR="$HOME/.ctu-thesis/lib"
+else
+  echo "Error: cannot find ctu-thesis core library." >&2
+  echo "Run install script or set CTU_HOME environment variable." >&2
+  exit 1
+fi
+
+# -- Source core library -----------------------------------------------------
+source "$LIB_DIR/version.sh"
+source "$LIB_DIR/core.sh"
+
+# -- Global flags ------------------------------------------------------------
+CTU_VERBOSE="${CTU_VERBOSE:-false}"
+CTU_QUIET="${CTU_QUIET:-false}"
+COMMAND=""
+COMMAND_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -v|--verbose) CTU_VERBOSE=true; shift ;;
+    -q|--quiet) CTU_QUIET=true; shift ;;
+    -h|--help)
+      COMMAND="help"
+      shift
+      ;;
+    --version)
+      echo "ctu-thesis v${CTU_VERSION}"
+      exit 0
+      ;;
+    --) shift; COMMAND_ARGS+=("$@"); break ;;
+    -*)
+      ctu_log_error "Unknown flag: $1"
+      echo "Run 'ctu-thesis help' for usage." >&2
+      exit 1
+      ;;
+    *)
+      COMMAND="$1"
+      shift
+      COMMAND_ARGS+=("$@")
+      break
+      ;;
+  esac
+done
+
+# -- Default to help ---------------------------------------------------------
+[[ -z "$COMMAND" ]] && COMMAND="help"
+
+# -- Dispatch ----------------------------------------------------------------
+CMD_FILE="$LIB_DIR/commands/${COMMAND}.sh"
+if [[ -f "$CMD_FILE" ]]; then
+  source "$CMD_FILE"
+else
+  ctu_log_error "Unknown command: $COMMAND"
+  echo "Run 'ctu-thesis help' for available commands." >&2
+  exit 1
+fi
