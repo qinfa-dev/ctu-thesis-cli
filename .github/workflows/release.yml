@@ -1,0 +1,48 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Typst (for template compile verification)
+        uses: typst-community/setup-typst@v3
+        with:
+          typst-version: '0.12.0'
+
+      - name: Verify template compiles
+        run: typst compile templates/main.typ /tmp/template-test.pdf
+
+      - name: Run tests
+        run: |
+          git clone --depth 1 https://github.com/bats-core/bats-core.git
+          cd bats-core && sudo ./install.sh /usr/local
+          cd ..
+          echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+          sudo apt-get install -y ttf-mscorefonts-installer shellcheck
+          make lint
+          bats tests/
+
+      - name: Build release artifacts
+        run: make bundle
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          body: |
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for full release notes.
+          files: |
+            dist/ctu-thesis
+            dist/templates.tar.gz
+          generate_release_notes: true
