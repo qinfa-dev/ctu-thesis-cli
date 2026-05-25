@@ -1,0 +1,25 @@
+# Typst output
+*.pdf
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.bak
+
+# Distribution artifacts
+dist/ctu-thesis
+dist/templates.tar.gz
+
+# Test artifacts
+tests/tmp-*
