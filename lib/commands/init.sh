@@ -242,4 +242,6 @@ RCEOF
   echo "  ctu-thesis chapter add 'Chapter Title'  # Add a chapter"
 }
 
-ctu_init "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "init" ]]; then
+  ctu_init "${COMMAND_ARGS[@]}"
+fi

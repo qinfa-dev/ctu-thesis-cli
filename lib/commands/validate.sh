@@ -177,4 +177,6 @@ ctu_validate() {
   fi
 }
 
-ctu_validate "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "validate" ]]; then
+  ctu_validate "${COMMAND_ARGS[@]}"
+fi

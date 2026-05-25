@@ -47,4 +47,6 @@ ctu_clean() {
   fi
 }
 
-ctu_clean "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "clean" ]]; then
+  ctu_clean "${COMMAND_ARGS[@]}"
+fi

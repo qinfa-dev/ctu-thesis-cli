@@ -215,4 +215,6 @@ TYPEOF
   esac
 }
 
-ctu_chapter "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "chapter" ]]; then
+  ctu_chapter "${COMMAND_ARGS[@]}"
+fi

@@ -69,4 +69,6 @@ ctu_config_cmd() {
   esac
 }
 
-ctu_config_cmd "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "config" ]]; then
+  ctu_config_cmd "${COMMAND_ARGS[@]}"
+fi

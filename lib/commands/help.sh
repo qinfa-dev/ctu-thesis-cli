@@ -55,4 +55,6 @@ ctu_help() {
 }
 
 # Auto-execute when sourced from entrypoint
-ctu_help "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "help" ]]; then
+  ctu_help "${COMMAND_ARGS[@]}"
+fi

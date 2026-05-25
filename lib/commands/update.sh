@@ -57,4 +57,6 @@ ctu_update() {
   ctu_log_ok "Update complete."
 }
 
-ctu_update "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "update" ]]; then
+  ctu_update "${COMMAND_ARGS[@]}"
+fi

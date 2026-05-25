@@ -134,4 +134,6 @@ ctu_doctor() {
   fi
 }
 
-ctu_doctor "${COMMAND_ARGS[@]}"
+if [[ "${COMMAND:-}" == "doctor" ]]; then
+  ctu_doctor "${COMMAND_ARGS[@]}"
+fi
