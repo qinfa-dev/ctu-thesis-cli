@@ -2,6 +2,20 @@
 
 > A cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024).
 
+---
+
+> # ⚠️  DISCLAIMER — PLEASE READ
+>
+> **This is NOT an official CTU tool.** It is a community-maintained CLI based on **Decision 4125/QĐ-ĐHCT** (August 6, 2024). Formatting requirements **vary by department** and **change without notice**.
+>
+> ✅ **Always confirm** your final document format with your **academic advisor** and **department office**.
+>
+> 🐛 Found an error or outdated rule? [**Report it here.**](https://github.com/qinfa-dev/ctu-thesis-cli/issues)
+>
+> 📖 Full formatting guidelines: [`docs/en/`](docs/en/) (English) · [`docs/vi/`](docs/vi/) (Tiếng Việt)
+
+---
+
 ## Quick Install
 
 ```bash
