@@ -1,7 +1,7 @@
 {
   "name": "ctu-thesis-cli",
   "version": "1.0.0",
-  "description": "Cross-platform Bash CLI for CTU students to scaffold, build, validate, and manage Typst thesis projects.",
+  "description": "Cross-platform Bash CLI for Can Tho University (CTU) students to scaffold, build, validate, and manage Typst thesis projects — compliant with Decision 4125/QĐ-ĐHCT (2024). Fully bilingual (English/Vietnamese). 9 commands for the full thesis lifecycle: init, build, validate, doctor, clean, config, chapter, update, help.",
   "bin": {
     "ctu-thesis": "bin/ctu-thesis"
   },
@@ -12,14 +12,24 @@
   "keywords": [
     "cli",
     "bash",
+    "shell",
     "typst",
     "thesis",
+    "thesis-template",
+    "graduation-thesis",
     "ctu",
     "can-tho-university",
     "dai-hoc-can-tho",
     "luan-van",
+    "vietnam",
     "academic-writing",
-    "vietnam"
+    "pdf-generation",
+    "template",
+    "scaffold",
+    "project-generator",
+    "developer-tools",
+    "ieee",
+    "typesetting"
   ],
   "author": "Phat Nguyen",
   "license": "MIT",

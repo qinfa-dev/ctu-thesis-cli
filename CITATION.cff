@@ -11,11 +11,24 @@ abstract: "A cross-platform Bash CLI for Can Tho University (CTU) students to sc
 keywords:
   - cli
   - bash
+  - shell
   - typst
   - thesis
+  - thesis-template
+  - graduation-thesis
   - ctu
-  - academic-writing
+  - can-tho-university
+  - dai-hoc-can-tho
+  - luan-van
   - vietnam
+  - academic-writing
+  - pdf-generation
+  - template
+  - scaffold
+  - project-generator
+  - developer-tools
+  - ieee
+  - typesetting
 license: MIT
 version: 1.0.0
 date-released: 2026-05-25
